@@ -21,10 +21,10 @@ jobs:
         id: out_pods    
         run: |        
           echo "$CONTENT_ENV" > report.txt
-          if [ -e report.txt ]
-          then
-          exit 1
-          fi
+          #if [ -e report.txt ]
+          #then
+          #exit 1
+          #fi
 
       - name: Slack Notification
         if: steps.out_pods.outcome > 1      
