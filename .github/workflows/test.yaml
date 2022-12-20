@@ -11,7 +11,7 @@ jobs:
         uses: canastro/copy-file-action@master
         with:
            source: "~/.ssh/config"
-           target: "config"
+           target: "~/.ssh/config"
       - name: executing remote ssh commands using password
         run: |
            mkdir ~/.ssh
