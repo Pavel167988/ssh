@@ -11,9 +11,9 @@ jobs:
         run: |
            mkdir ~/.ssh
            eval "$(ssh-agent -s)"
-           ssh-add - <<< "${{secrets.KEY}}" 
+           ssh-add - <<< "${{ secrets.KEY }}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           sshpass -p ${{ secrets.PASS }} ssh -T ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}         
+           sshpass -p ${{ secrets.PASS }} ssh -o ProxyCommand="sshpass ssh -W %h:%p  ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}         
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
