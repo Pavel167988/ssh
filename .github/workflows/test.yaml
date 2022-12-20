@@ -19,7 +19,7 @@ jobs:
 
       - name: output pods
         run: |        
-          echo ${{ steps.get_pods.outputs.status }} >> report.log 2>&1
+          echo ${{ env.status }} >> report.log 2>&1
 
 
           
