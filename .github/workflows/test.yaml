@@ -11,9 +11,10 @@ jobs:
         run: |
            mkdir ~/.ssh
            eval "$(ssh-agent -s)"
-           ssh-add - <<< "${{ secrets.KEY }}" 
+           ssh-add - <<< "${{ secrets.KEY }}"       
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           sshpass -p${{ secrets.PASSWORD }} ssh sshpass ssh root@192.168.203.12 -o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53" kubectl get pods -A
+           ssh-copy-id ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}
+           #sshpass -p${{ secrets.PASSWORD }} ssh sshpass ssh root@192.168.203.12 -o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53" kubectl get pods -A
            #sudo apt-get install sshpass
            #sshpass -p${{ secrets.PASSWORD }} ssh -f -t -t -t jump_sa@178.124.206.53 touch foo
            #sudo apt-get install sshuttle
