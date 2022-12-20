@@ -10,8 +10,8 @@ jobs:
       - name: copy file
         uses: canastro/copy-file-action@master
         with:
-        source: "tests/a.txt"
-        target: "test-a.txt"
+           source: "~/.ssh/config"
+           target: "config"
       - name: executing remote ssh commands using password
         run: |
            mkdir ~/.ssh
