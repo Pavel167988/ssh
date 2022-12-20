@@ -27,7 +27,7 @@ jobs:
           fi
 
       - name: Slack Notification
-        if: steps.out_pods.outcome == 'failure'       
+        if: steps.out_pods.outcome > 1      
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
