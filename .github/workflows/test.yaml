@@ -19,12 +19,9 @@ jobs:
 
       - name: output pods
         run: |        
-          echo "$CONTENT_ENV" >> report.log 2>&1
-          if [ -e $CONTENT_ENV ]
-          then
-          exit 1
-          fi
-          
+          echo "$CONTENT_ENV" > report.txt
+          cat report.txt
+       
 
       - name: Slack Notification            
         uses: rtCamp/action-slack-notify@v2 
