@@ -20,10 +20,13 @@ jobs:
       - name: output pods
         run: |        
           echo "$CONTENT_ENV" >> report.log 2>&1
+          if [ -e $CONTENT_ENV ]
+          then
+          exit 1
+          fi
           
 
-      - name: Slack Notification
-        if: $CONTENT_ENV > 1      
+      - name: Slack Notification            
         uses: rtCamp/action-slack-notify@v2 
         env:
           SLACK_CHANNEL: docker_push
