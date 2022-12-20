@@ -10,10 +10,9 @@ jobs:
       - name: executing remote ssh commands using password
         run: |
            mkdir ~/.ssh
-           cd ~/.ssh
            eval "$(ssh-agent -s)"
            ssh-add - <<< "${{secrets.KEY}}" 
-           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+           ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
            ssh ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }} ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
            sshpass -p ${{ secrets.PASSWORD }} 
            ssh ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" 
