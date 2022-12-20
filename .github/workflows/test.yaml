@@ -19,8 +19,8 @@ jobs:
 
       - name: output pods
         run: |        
-          echo $CONTENT_ENV > index.md
-          cat index.md
+          echo $CONTENT_ENV >> report.log
+          
 
 
           
