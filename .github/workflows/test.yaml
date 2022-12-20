@@ -18,11 +18,8 @@ jobs:
 
       - name: output pods
         run: |        
-          if [[ ${{ steps.get_pods.outputs.status }} != *"RUNNING"* ]]; then
-            echo "WE HAVE A PROBLEM" >> report.log 2>&1
-            exit 1
-          fi
-          echo "It's OK, all pods is alive" >> report.log 2>&1
+          echo ${{ steps.get_pods.outputs.status }} >> report.log 2>&1
+
 
           
       - name: Upload report
