@@ -27,11 +27,8 @@ jobs:
           fi
 
       - name: Slack Notification
-        if: failure()       
+        if: steps.out_pods.outcome != 'success'       
         uses: rtCamp/action-slack-notify@v2
-        with:
-          status: ${{ job.status.out_pods }}
-          notify_when: 'failure'
         env:
           SLACK_CHANNEL: docker_push
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
