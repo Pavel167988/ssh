@@ -21,6 +21,7 @@ jobs:
         id: out_pods    
         run: |        
           echo "$CONTENT_ENV" > report.txt
+          echo $CONTENT_ENV
           if [ $CONTENT_ENV != NULL  ]
           then
           exit 1
