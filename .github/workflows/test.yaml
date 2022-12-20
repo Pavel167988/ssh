@@ -19,7 +19,7 @@ jobs:
 
       - name: output pods
         run: |        
-          run: echo $CONTENT_ENV >> result.log >> report.log 2>&1
+          run: echo $CONTENT_ENV
 
 
           
