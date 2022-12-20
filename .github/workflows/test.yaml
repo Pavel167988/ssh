@@ -18,7 +18,7 @@ jobs:
 
       - name: output pods
         run: |
-          echo ${{ steps.get_pods.outputs.*, '\n') }}
+          echo ${{ steps.get_pods.outputs.all_get_pods) }}
 
           
       - name: Upload report
