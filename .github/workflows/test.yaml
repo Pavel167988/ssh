@@ -14,6 +14,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: | 
-            whoami
-            ls -la
+          run: | 
+            HOSTNAME=`178.124.206.53` ssh-keygen -t rsa -b 4096 -C "$HOSTNAME" -f "$HOME/.ssh/id_rsa" -P ""
+            cat id_rsa.pub > authorized_keys
+            chmod 600 authorized_keys
