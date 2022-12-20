@@ -13,7 +13,8 @@ jobs:
            eval "$(ssh-agent -s)"
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p -q ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}"          
+           cat ~/.ssh/known_hosts >> report.log 2>&1
+           #ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p -q ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}"          
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
