@@ -9,6 +9,7 @@ jobs:
           fetch-depth: 0
       - name: executing remote ssh commands using password
         run: |
+           mkdir ~/.ssh
            cd ~/.ssh
            eval "$(ssh-agent -s)"
            ssh-add - <<< "${{secrets.KEY}}" 
