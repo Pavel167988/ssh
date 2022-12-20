@@ -12,8 +12,8 @@ jobs:
            mkdir ~/.ssh
            eval "$(ssh-agent -s)"
            ssh-add - <<< "${{ secrets.KEY }}"       
-           ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           ssh ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }} ls -la                 
+           ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts         
+           ssh -o PreferredAuthentications=${{ secrets.PASS }} -o PubkeyAuthentication=no ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }} ls -la                 
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
