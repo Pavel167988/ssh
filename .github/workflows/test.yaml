@@ -23,7 +23,7 @@ jobs:
           echo "$CONTENT_ENV" > report.txt
           if [ -e report.txt ]
           then
-          echo ::set-output name=status::failure        
+          exit 1
           fi
           
           
