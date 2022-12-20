@@ -5,14 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands using password
+        env:
+           PASSWORD: ${{ secrets.PASS }}
         run: |
            mkdir ~/.ssh
            eval `ssh-agent -s`
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           sshpass -p 'QwertY_13' ssh -T -o ProxyCommand="sshpass ssh -W %h:%p jump_sa@178.124.206.53" root@192.168.203.12 -o StrictHostKeyChecking=no "kubectl get pods -A" >> report.log 2>&1      
-           #ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts         
-           #ssh -o PreferredAuthentications="${{ secrets.PASS }}" -o PubkeyAuthentication=no ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }} ls -la                 
+           sshpass -p '$PASSWORD' ssh -T -o ProxyCommand="sshpass ssh -W %h:%p jump_sa@178.124.206.53" root@192.168.203.12 -o StrictHostKeyChecking=no "kubectl get pods -A" >> report.log 2>&1                    
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
