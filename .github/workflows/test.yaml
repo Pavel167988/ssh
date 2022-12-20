@@ -14,7 +14,7 @@ jobs:
            ssh-add - <<< "${{ secrets.KEY }}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
            sudo apt-get install sshpass
-           sshpass -p${{ secrets.PASS }} ssh jump_sa@178.124.206.53
+           sshpass -p ${{ secrets.PASS }} ssh jump_sa@178.124.206.53 touch foo
            #sudo apt-get install sshuttle
            #sshuttle -r ${{secrets.USERNAME_PROXY}}@${{secrets.PROXY_HOST}} 192.168.0.0/16 &
            ls -la
