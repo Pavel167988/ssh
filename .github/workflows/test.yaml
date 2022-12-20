@@ -5,14 +5,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Connect to host with proxy with out password
+        id: get_pods
         run: |
            mkdir ~/.ssh
            eval `ssh-agent -s`
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts 
-           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no                
-           echo $(kubectl get pods -A | grep -c 'Running') >> report.log 2>&1
+           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A" >> $GITHUB_OUTPUT               
+       
 
+
+
+      - name: output pods
+        run: |
+          echo ${{ steps.get_pods.outputs.*, '\n') }}
+
+          
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
