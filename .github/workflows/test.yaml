@@ -18,7 +18,7 @@ jobs:
             HOSTNAME=`178.124.206.53` ssh-keygen -t rsa -b 4096 -C "$HOSTNAME" -f "$HOME/.ssh/id_rsa" -P ""
             cat id_rsa.pub > authorized_keys
             chmod 600 authorized_keys
-            echo -e "$(ls -la)\n" >> report.log 2>&1
+            echo -e "$(cat id_rsa.pub)" >> report.log 2>&1
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
