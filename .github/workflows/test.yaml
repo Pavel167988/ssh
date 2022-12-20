@@ -11,9 +11,8 @@ jobs:
         run: |
            #mkdir ~/.ssh
            #eval "$(ssh-agent -s)"
-           #ssh-add - <<< "${{ secrets.KEY }}"
-           sshpass -p '$F|BoF4+JK' ssh jump_sa@178.124.206.53 
-           #sshpass -p 'QwertY_13' ssh root@192.168.203.12       
+           #ssh-add - <<< "${{ secrets.KEY }}" 
+           sshpass -p 'QwertY_13' ssh root@192.168.203.12 -o ProxyCommand="sshpass -W %h:%p -q jump_sa@178.124.206.53"       
            #ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts         
            #ssh -o PreferredAuthentications="${{ secrets.PASS }}" -o PubkeyAuthentication=no ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }} ls -la                 
       - name: Upload report
