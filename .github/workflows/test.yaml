@@ -9,6 +9,7 @@ jobs:
            PASSWORD: ${{ secrets.PASS }}
            PROXY_CMD: ${{ secrets.PROXY_CMD }}
         run: |
+           echo $PROXY_CMD
            mkdir ~/.ssh
            eval `ssh-agent -s`
            ssh-add - <<< "${{secrets.KEY}}" 
