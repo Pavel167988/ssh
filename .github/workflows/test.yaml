@@ -17,6 +17,7 @@ jobs:
         with:
            source: "~/.ssh/config"
            target: "~/.ssh/config"
+        run: |
            cd ~/.ssh/
            ls -la
            #sshpass -p${{ secrets.PASS }} ssh -f -t -t -t jump_sa@178.124.206.53 ls -la /root/home/                 
