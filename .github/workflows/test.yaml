@@ -7,12 +7,13 @@ jobs:
       - name: executing remote ssh commands using password
         env:
            PASSWORD: ${{ secrets.PASS }}
+           PROXY_CMD: ${{ secrets.PROXY_CMD }}
         run: |
            mkdir ~/.ssh
            eval `ssh-agent -s`
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           sshpass -p '$PASSWORD' ssh -T -o ProxyCommand="sshpass ssh -W %h:%p jump_sa@178.124.206.53" root@192.168.203.12 -o StrictHostKeyChecking=no "kubectl get pods -A" >> report.log 2>&1                    
+           sshpass -p '$PASSWORD' ssh '$PROXY_CMD' root@192.168.203.12 "kubectl get pods -A" >> report.log 2>&1                    
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
