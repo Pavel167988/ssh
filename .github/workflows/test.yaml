@@ -22,7 +22,17 @@ jobs:
           echo "$CONTENT_ENV" >> report.log 2>&1
           
 
-
+      - name: Slack Notification
+        if: $CONTENT_ENV != NULL      
+        uses: rtCamp/action-slack-notify@v2 
+        env:
+          SLACK_CHANNEL: docker_push
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'WE have crash'
+          SLACK_TITLE: 'ALERT!'
+          SLACK_USERNAME: Kostenko Pavel
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           
       - name: Upload report
         uses: actions/upload-artifact@v2
