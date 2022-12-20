@@ -13,13 +13,14 @@ jobs:
            eval "$(ssh-agent -s)"
            ssh-add - <<< "${{ secrets.KEY }}"       
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
+           ssh-keygen -o -t rsa -C "actions"
            ssh-copy-id ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}
            #sshpass -p${{ secrets.PASSWORD }} ssh sshpass ssh root@192.168.203.12 -o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53" kubectl get pods -A
            #sudo apt-get install sshpass
            #sshpass -p${{ secrets.PASSWORD }} ssh -f -t -t -t jump_sa@178.124.206.53 touch foo
            #sudo apt-get install sshuttle
            #sshuttle -r ${{secrets.USERNAME_PROXY}}@${{secrets.PROXY_HOST}} 192.168.0.0/16 &
-           # sshpass -p ${{ secrets.PASS }} ssh -o ProxyCommand="sshpass ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}"         
+           #sshpass -p ${{ secrets.PASS }} ssh -o ProxyCommand="sshpass ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}"         
       #- name: Upload report
        # uses: actions/upload-artifact@v2
         #with:
