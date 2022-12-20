@@ -21,16 +21,15 @@ jobs:
         id: out_pods    
         run: |        
           echo "$CONTENT_ENV" > report.txt
-          echo $CONTENT_ENV
-          if [ $CONTENT_ENV != NULL  ]
-          then
-          exit 1
-          fi
+          echo "$CONTENT_ENV"
+          echo ::set-output name=exit_code::$?
+          
+
           
           
 
       - name: Slack Notification
-        if: failure()    
+        if: steps.out_pods.outputs.exit_code == 0 
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
