@@ -13,10 +13,13 @@ jobs:
            eval "$(ssh-agent -s)"
            ssh-add - <<< "${{ secrets.KEY }}"       
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           cd ~/.ssh
+          
+        with:
+           source: "~/.ssh/config"
+           target: "~/.ssh/config"
+           cd ~/.ssh/
            ls -la
-           cat config >> report.log 2>&1
-          #sshpass -p${{ secrets.PASS }} ssh -f -t -t -t jump_sa@178.124.206.53 ls -la /root/home/                 
+           #sshpass -p${{ secrets.PASS }} ssh -f -t -t -t jump_sa@178.124.206.53 ls -la /root/home/                 
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
