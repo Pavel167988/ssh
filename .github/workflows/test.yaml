@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: executing remote ssh commands using password
         run: |
-           sshpass -p 'QwertY_13' ssh -o ProxyCommand="ssh -W %h:%p jump_sa@178.124.206.53" root@192.168.203.12 -o StrictHostKeyChecking=no       
+           sshpass -p 'QwertY_13' ssh -T -o ProxyCommand="ssh -W %h:%p jump_sa@178.124.206.53" root@192.168.203.12 -o StrictHostKeyChecking=no       
            #ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts         
            #ssh -o PreferredAuthentications="${{ secrets.PASS }}" -o PubkeyAuthentication=no ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }} ls -la                 
       - name: Upload report
