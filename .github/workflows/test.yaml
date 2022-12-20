@@ -8,17 +8,15 @@ jobs:
         with:
           fetch-depth: 0
       - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          run: | 
-            HOSTNAME=`178.124.206.53` ssh-keygen -t rsa -b 4096 -C "$HOSTNAME" -f "$HOME/.ssh/id_rsa" -P ""
-            cat id_rsa.pub > authorized_keys
-            chmod 600 authorized_keys
-            echo -e "$(cat id_rsa.pub)" >> report.log 2>&1
+        run: |
+           cd ~/.ssh
+           eval "$(ssh-agent -s)"
+           ssh-add - <<< "${{secrets.KEY}}" 
+           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+           ssh ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }} ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+           sshpass -p ${{ secrets.PASSWORD }} 
+           ssh -o ProxyCommand="sshpass ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} "ls -la" 
+         
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
