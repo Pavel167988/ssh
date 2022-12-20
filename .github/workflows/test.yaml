@@ -9,12 +9,14 @@ jobs:
           fetch-depth: 0
       - name: executing remote ssh commands using password
         run: |
-           ping 178.124.206.53
-           #mkdir ~/.ssh
-           #eval "$(ssh-agent -s)"
-           #ssh-add - <<< "${{ secrets.KEY }}"       
-           #ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           #sshpass -p${{ secrets.PASS }} ssh -f -t -t -t jump_sa@178.124.206.53 ls -la /root/home/                 
+           mkdir ~/.ssh
+           eval "$(ssh-agent -s)"
+           ssh-add - <<< "${{ secrets.KEY }}"       
+           ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
+           cat >>~/.ssh/config <<END
+           cd ~/.ssh/
+           echo "cat config"
+          #sshpass -p${{ secrets.PASS }} ssh -f -t -t -t jump_sa@178.124.206.53 ls -la /root/home/                 
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
