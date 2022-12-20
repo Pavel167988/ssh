@@ -11,10 +11,10 @@ jobs:
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts 
            ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no                    
-           echo -e "This is all pods in k8s:\n"$(kubectl get pods -A)"" >> report.log 2>&1      
-#      - name: get all pods from host
-#        run: |
-#           echo -e "This is all pods in k8s:\n$(kubectl get pods -A)" >> report.log 2>&1 
+        with: 
+           script: |  
+               echo -e "This is all pods in k8s:\n"$(kubectl get pods -A)"" >> report.log 2>&1      
+ 
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
