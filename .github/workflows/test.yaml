@@ -19,9 +19,8 @@ jobs:
            #sshpass -p${{ secrets.PASSWORD }} ssh -f -t -t -t jump_sa@178.124.206.53 touch foo
            #sudo apt-get install sshuttle
            #sshuttle -r ${{secrets.USERNAME_PROXY}}@${{secrets.PROXY_HOST}} 192.168.0.0/16 &
-           ls -la
-          # sshpass -p ${{ secrets.PASS }} ssh -o ProxyCommand="sshpass ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}"         
-      - name: Upload report
-        uses: actions/upload-artifact@v2
-        with:
-          path: report.log
+           # sshpass -p ${{ secrets.PASS }} ssh -o ProxyCommand="sshpass ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}"         
+      #- name: Upload report
+       # uses: actions/upload-artifact@v2
+        #with:
+         # path: report.log
