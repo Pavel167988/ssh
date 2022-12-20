@@ -4,17 +4,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
-        env:
-           PASSWORD: ${{ secrets.PASS }}
-           PROXY_CMD: ${{ secrets.PROXY_CMD }}
+      - name: Connect to host with proxy with out password
         run: |
            mkdir ~/.ssh
            eval `ssh-agent -s`
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts 
-           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A" >> report.log 2>&1                    
-      - name: Upload report
-        uses: actions/upload-artifact@v2
+           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no                    
+     - name: get all pods from host
+       run: |
+          echo "This is all pods in k8s:\n"kubectl get pods -A" >> report.log 2>&1 
+     - name: Upload report
+       uses: actions/upload-artifact@v2
         with:
           path: report.log
