@@ -14,12 +14,12 @@ jobs:
            echo 'status<<EOF' >> $GITHUB_ENV
            ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A" >> $GITHUB_ENV  
            echo 'EOF' >> $GITHUB_ENV
-
+           echo ${{ env.get_pods.status }} >> report.log 2>&1
 
 
       - name: output pods
         run: |        
-          echo ${{ env.get_pods.status }} >> report.log 2>&1
+          
 
 
           
