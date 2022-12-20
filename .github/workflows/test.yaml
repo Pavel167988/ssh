@@ -12,8 +12,7 @@ jobs:
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts 
            ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no                    
         with: 
-           script: |  
-               echo -e "This is all pods in k8s:\n"$(kubectl get pods -A)"" >> report.log 2>&1      
+          script: echo -e "This is all pods in k8s:\n"$(kubectl get pods -A)"" >> report.log 2>&1      
  
       - name: Upload report
         uses: actions/upload-artifact@v2
