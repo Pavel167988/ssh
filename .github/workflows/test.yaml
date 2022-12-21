@@ -12,13 +12,13 @@ jobs:
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
            echo 'CONTENT_ENV<<EOF' >> $GITHUB_ENV
-           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A" | >> $GITHUB_ENV  
+           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A" >> $GITHUB_ENV  
            echo 'EOF' >> $GITHUB_ENV
            
       - name: output pods
         id: out_pods    
         run: |        
-          OUTPUT=$(cat $GITHUB_ENV | grep -c 'Running') && echo "::set-output name=OUTPUT::$OUTPUT"
+          OUTPUT=$(cat "$GITHUB_ENV" | grep -c 'Running') && echo "::set-output name=OUTPUT::$OUTPUT"
 
           
       - name: Slack Notification
