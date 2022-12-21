@@ -29,20 +29,23 @@ jobs:
         id: out_pods_failed    
         run: |
            echo "$CONTENT_ENV" > pods.txt
-           echo "crashed=$(cat pods.txt | grep -v Running | wc -l)" > crash.log #2>&1
-           cat crash.log
+           echo "file=$(cat pods.txt | grep -v Running | wc -l)" > crash.log #2>&1
+           if [ crash.log > 1 ]
+           then
+           echo "::set-output name=OUTPUT::$file"
+           fi
 
 
 
           
       - name: Upload report
-        if: steps.out_pods_failed.outputs.crashed > 1
+        if: steps.out_pods_failed.outputs.OUPUT > 1
         uses: actions/upload-artifact@v2
         with:
           path: crash.log         
  
       - name: Slack Notification
-        if: steps.out_pods_failed.outputs.crashed > 1
+        if: steps.out_pods_failed.outputs.OUTPUT > 1
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
