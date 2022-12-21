@@ -29,7 +29,9 @@ jobs:
         id: out_pods_failed    
         run: |
            echo "$CONTENT_ENV" > pods.txt
-           echo "env1=$(cat pods.txt | grep -v Running)" > crash.txt
+           cat pods.txt
+           echo "$(cat pods.txt | grep -v Running)" > crash.txt
+           cat crash.txt
            echo "crashed=$(wc -l < crash.txt)" >> crash.log 2>&1
 
           
