@@ -29,16 +29,17 @@ jobs:
         id: out_pods_failed    
         run: |
            echo ""$CONTENT_ENV" | grep -v Running" > crashed.txt
-           cat crashed.txt
+           echo "crashed=$(grep | Running | wc -l < $CONTENT_ENV)" >> $GITHUB_OUTPUT
+           cat $crashed
           
       - name: Upload report
-        if: steps.out_pods.outputs.OUTPUT < 4
+        if: steps.out_pods.outputs.OUTPUT > 1
         uses: actions/upload-artifact@v2
         with:
           path: report.log          
  
       - name: Slack Notification
-        if: steps.out_pods.outputs.OUTPUT < 4
+        if: steps.out_pods.outputs.OUTPUT > 1
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
