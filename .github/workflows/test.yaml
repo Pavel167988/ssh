@@ -50,7 +50,7 @@ jobs:
           SLACK_COLOR: ${{ job.failure }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: https://github.com/rtCamp.png?size=48
           SLACK_MESSAGE: 'We have crashed pods!!!'
-          SLACK_TITLE: 'ALERT! Check "echo $(cat crash.log)"'
+          SLACK_TITLE: 'ALERT! Check crash.log'
           SLACK_USERNAME: Kostenko Pavel
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
