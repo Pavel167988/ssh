@@ -30,16 +30,16 @@ jobs:
         run: |
            echo "$CONTENT_ENV" > crashed.txt
            echo "crashed=$(grep -v '/Running/d' crashed.txt)" >> crash.log 2>&1
-           cat $crashed
+
           
       - name: Upload report
-        if: steps.out_pods.outputs.OUTPUT > 1
+        if: steps.out_pods.outputs.crashed > 1
         uses: actions/upload-artifact@v2
         with:
           path: crash.log         
  
       - name: Slack Notification
-        if: steps.out_pods.outputs.OUTPUT > 1
+        if: steps.out_pods.outputs.crashed > 1
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
