@@ -30,9 +30,8 @@ jobs:
         run: |
            echo "$CONTENT_ENV" > pods.txt
            cat pods.txt
-           echo "$(cat pods.txt | grep -v Running)" > crash.txt
-           cat crash.txt
-           echo "crashed=$(wc -l < crash.txt)" >> crash.log 2>&1
+           echo "crashed=$(cat pods.txt | grep -v Running)" > crash.txt
+
 
           
       - name: Upload report
