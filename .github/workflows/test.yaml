@@ -29,8 +29,8 @@ jobs:
         id: out_pods_failed    
         run: |
            echo "$CONTENT_ENV" > pods.txt
-           echo "file=$(cat pods.txt | grep -v Running | wc -l)" >> crash.log #2>&1
-           if [ "$file" > 1 ]
+           echo "$(cat pods.txt | grep -v Running | wc -l)" > crash.txt
+           if [ "crash.txt" > 1 ]
            then
            echo "::set-output name=OUTPUT::$file"
            fi
