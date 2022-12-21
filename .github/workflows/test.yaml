@@ -3,8 +3,6 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      report: failed_pods.txt
     steps:
       - name: Connect to host with proxy with out password
         id: get_pods
@@ -31,31 +29,24 @@ jobs:
         id: out_pods_failed    
         run: |
            echo "$CONTENT_ENV" > pods.txt           
-           echo "$(cat pods.txt | grep -v Running)" >> ${{ env.report }}
+           echo "$(cat pods.txt | grep -v Running)" >> pods_crashed.log 2>&1
            echo "crashed=$(cat pods.txt | grep -v Running | wc -l)" >> $GITHUB_OUTPUT
-
-
-
-
-
           
       - name: Upload report
         if: steps.out_pods_failed.outputs.crashed > 1
         uses: actions/upload-artifact@v2
         with:
-          path: ${{ env.report }}        
+          path: pods_crashed.log       
  
       - name: Slack Notification
         if: steps.out_pods_failed.outputs.crashed > 1
         uses: rtCamp/action-slack-notify@v2
-        with:
-           path: ${{ env.report }} 
         env:
           SLACK_CHANNEL: crashed_pods-from-sa
           SLACK_COLOR: '#FF0000'
           SLACK_ICON: https://github.com/rtCamp.png?size=48
           SLACK_MESSAGE: 'We have crashed pods!!!'
-          SLACK_TITLE: 'ALERT! Check ${{ env.report }}'
+          SLACK_TITLE: 'ALERT! Check pods_crashed.log in artifact'
           SLACK_USERNAME: Kostenko Pavel
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
