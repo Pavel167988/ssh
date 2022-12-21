@@ -11,9 +11,9 @@ jobs:
            eval `ssh-agent -s`
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
-           #echo 'CONTENT_ENV<<EOF' >> $GITHUB_ENV
-           $GITHUB_ENV = $(ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A | grep -v Running | grep -v NAMESPACE")   
-           #echo 'EOF' >> $GITHUB_ENV
+           echo 'CONTENT_ENV<<EOF' >> $GITHUB_ENV
+           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A | grep -v Running | grep -v NAMESPACE"  
+           echo 'EOF' >> $GITHUB_ENV
            
 
 
@@ -21,15 +21,15 @@ jobs:
         id: out_pods    
         run: |        
           echo "$CONTENT_ENV" > report.txt
-          echo "$CONTENT_ENV"
-          echo ::set-output name=exit_code::$?
+          if [ -e report.txt ]
+          exit 1
           
 
           
           
 
       - name: Slack Notification
-        if: steps.out_pods.outputs.exit_code == 0 
+        if: ${{ failure() && steps.out_pods.conclusion == 'failure' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
