@@ -29,8 +29,8 @@ jobs:
         id: out_pods_failed    
         run: |
            echo "$CONTENT_ENV" > pods.txt
-           echo "$(cat pods.txt | grep -v Running)" >> crash.log 2>&1
-           echo "crashed=$(wc -l < crash.log }})" >> $GITHUB_OUTPUT
+           echo "file=$(cat pods.txt | grep -v Running)" >> crash.log 2>&1
+           echo "crashed=$(wc -l < $file }})" >> $GITHUB_OUTPUT
 
 
           
