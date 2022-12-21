@@ -3,6 +3,8 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      report: failed_pods.txt
     steps:
       - name: Connect to host with proxy with out password
         id: get_pods
