@@ -23,8 +23,20 @@ jobs:
       - name: Upload pods
         uses: actions/upload-artifact@v2
         with:
-          path: pods.log   
+          path: pods.log
           
+      - name: output crashed pods
+        id: out_pods_failed    
+        run: |
+           echo ""$CONTENT_ENV" | grep -v Running" > crashed.txt
+           cat crashed.txt
+          
+      - name: Upload report
+        if: steps.out_pods.outputs.OUTPUT < 4
+        uses: actions/upload-artifact@v2
+        with:
+          path: report.log          
+ 
       - name: Slack Notification
         if: steps.out_pods.outputs.OUTPUT < 4
         uses: rtCamp/action-slack-notify@v2
@@ -37,11 +49,6 @@ jobs:
           SLACK_USERNAME: Kostenko Pavel
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
-      - name: Upload report
-        if: steps.out_pods.outputs.OUTPUT < 4
-        uses: actions/upload-artifact@v2
-        with:
-          path: report.log          
 
           
 
