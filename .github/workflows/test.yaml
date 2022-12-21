@@ -30,6 +30,7 @@ jobs:
         run: |
            echo "$CONTENT_ENV" > pods.txt
            echo "$(cat pods.txt | grep -v Running | wc -l)" > crash.txt
+           cat crash.txt
            if [ "crash.txt" > 1 ]
            then
            echo "::set-output name=OUTPUT::$file"
