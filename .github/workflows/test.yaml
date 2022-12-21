@@ -1,4 +1,4 @@
-name: tabs in files
+name: Check pods in SA
 on: push
 jobs:
   build:
@@ -46,11 +46,11 @@ jobs:
         if: steps.out_pods_failed.outputs.crashed > 1
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_CHANNEL: docker_push
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_CHANNEL: crashed_pods-from-sa
+          SLACK_COLOR: ${{ job.failure }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: https://github.com/rtCamp.png?size=48
           SLACK_MESSAGE: 'We have crashed pods!!!'
-          SLACK_TITLE: 'ALERT! Check "echo $(cat report.log)"'
+          SLACK_TITLE: 'ALERT! Check "echo $(cat crash.log)"'
           SLACK_USERNAME: Kostenko Pavel
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
