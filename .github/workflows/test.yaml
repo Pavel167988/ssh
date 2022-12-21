@@ -21,7 +21,7 @@ jobs:
         id: out_pods    
         run: |        
           echo "$CONTENT_ENV" >> report.log 2>&1
-          if [ -s "$CONTENT_ENV" ]
+          if [ -s report.log ]
           then
           exit 1
           fi      
