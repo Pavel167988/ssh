@@ -23,7 +23,7 @@ jobs:
 
           
       - name: Slack Notification
-        if: steps.info.outputs.OUTPUT < 4
+        if: steps.out_pods.outputs.OUTPUT < 4
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
@@ -35,7 +35,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
       - name: Upload report
-        if: steps.info.outputs.OUTPUT < 4
+        if: steps.out_pods.outputs.OUTPUT < 4
         uses: actions/upload-artifact@v2
         with:
           path: report.log          
