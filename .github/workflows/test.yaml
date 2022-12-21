@@ -23,6 +23,7 @@ jobs:
           echo "$CONTENT_ENV" > report.txt
           if [ -e report.txt ]
           then
+          echo "$CONTENT_ENV" >> report.log 2>&1
           exit 1
           fi
 
