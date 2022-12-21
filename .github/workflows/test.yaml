@@ -20,9 +20,10 @@ jobs:
       - name: output pods
         id: out_pods    
         run: |        
-          echo "$CONTENT_ENV" >> report.log 2>&1
-          if [ -s report.log ]
+          echo "$CONTENT_ENV" > report.txt
+          if [ -s report.txt ]
           then
+          echo "$CONTENT_ENV" >> report.log 2>&1
           exit 1
           fi      
         
