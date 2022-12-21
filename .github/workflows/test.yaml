@@ -28,8 +28,9 @@ jobs:
       - name: output crashed pods
         id: out_pods_failed    
         run: |
-           echo "$CONTENT_ENV" > crashed.txt
-           echo "crashed=$(grep -v '/Running/d' crashed.txt)" >> crash.log 2>&1
+           echo "$CONTENT_ENV"
+           echo "env1=$(grep -v '/Running/d' "$CONTENT_ENV")" > crash.txt
+           echo "crashed=$(wc -l < crash.txt)" >> crash.log 2>&1
 
           
       - name: Upload report
