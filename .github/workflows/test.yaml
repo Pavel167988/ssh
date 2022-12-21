@@ -19,7 +19,7 @@ jobs:
         id: out_pods    
         run: |        
           echo "$CONTENT_ENV" > report.txt
-          if [ $CONTENT_ENV -lt "grep | -v Running" ]
+          if [ "$CONTENT_ENV" -lt "grep | -v Running" ]
           then          
           echo "$CONTENT_ENV" >> report.log 2>&1
           exit 1
