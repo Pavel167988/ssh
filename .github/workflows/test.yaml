@@ -12,7 +12,7 @@ jobs:
            ssh-add - <<< "${{secrets.KEY}}" 
            ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
            echo 'CONTENT_ENV<<EOF' >> $GITHUB_ENV
-           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A | grep -v Running | grep -v NAMESPACE" >> $GITHUB_ENV  
+           ssh ${{ secrets.USERNAME_HOST }}@${{ secrets.HOST_IP }} -o ProxyCommand="ssh -W %h:%p ${{ secrets.USERNAME_PROXY }}@${{ secrets.PROXY_HOST }}" -o StrictHostKeyChecking=no "kubectl get pods -A | grep -v Running" >> $GITHUB_ENV  
            echo 'EOF' >> $GITHUB_ENV
            
 
@@ -20,20 +20,13 @@ jobs:
       - name: output pods
         id: out_pods    
         run: |        
-          echo "$CONTENT_ENV" > report.txt
-          if [ -s report.txt ]
-          then
+          echo "$CONTENT_ENV"
+          echo "::set-output name=OUTPUT::$OUTPUT"
           echo "$CONTENT_ENV" >> report.log 2>&1
-          exit 1
-          fi      
-        
-      - name: Upload report
-        uses: actions/upload-artifact@v2
-        with:
-          path: report.log          
 
+          
       - name: Slack Notification
-        if: ${{ failure() && steps.out_pods.conclusion == 'failure' }}
+        if: steps.get_pods.outputs.OUTPUT < 4
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: docker_push
@@ -43,5 +36,11 @@ jobs:
           SLACK_TITLE: 'ALERT!'
           SLACK_USERNAME: Kostenko Pavel
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: report.log          
+
           
 
