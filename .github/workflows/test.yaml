@@ -30,14 +30,14 @@ jobs:
         run: |
            echo "$CONTENT_ENV" > pods.txt
            echo "$CONTENT_ENV" >> crash.log 2>&1
-           echo "$(cat pods.txt | grep -v Running | wc -l)" > crash.txt
-           echo $(cat crash.txt)
+           echo "crashed=$(cat pods.txt | grep -v Running | wc -l)" >> $GITHUB_OUTPUT
+
 
 
 
           
       - name: Upload report
-        if: ${{ crash.txt > 1 }}
+        if: steps.out_pods_failed.outputs.crashed > 1
         uses: actions/upload-artifact@v2
         with:
           path: crash.log         
