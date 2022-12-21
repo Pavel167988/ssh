@@ -21,10 +21,11 @@ jobs:
         id: out_pods    
         run: |        
           echo "$CONTENT_ENV" >> report.log 2>&1
-
+          if [ -s "$CONTENT_ENV" ]
+          then
+          exit 1
+          fi      
         
-
-          
           
 
       - name: Slack Notification
