@@ -31,7 +31,8 @@ jobs:
            echo "$CONTENT_ENV" > pods.txt
            echo "$CONTENT_ENV" >> crash.log 2>&1
            echo "$(cat pods.txt | grep -v Running | wc -l)" > crash.txt
-           echo "$(crashed) = $(cat crash.txt)" >> $GITHUB_OUTPUT
+           echo "$crashed = $(cat crash.txt)" >> $GITHUB_OUTPUT
+           echo $crashed
 
 
 
