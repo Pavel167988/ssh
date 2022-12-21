@@ -48,6 +48,8 @@ jobs:
       - name: Slack Notification
         if: steps.out_pods_failed.outputs.crashed > 1
         uses: rtCamp/action-slack-notify@v2
+        with:
+           path: ${{ env.report }} 
         env:
           SLACK_CHANNEL: crashed_pods-from-sa
           SLACK_COLOR: '#FF0000'
@@ -56,8 +58,7 @@ jobs:
           SLACK_TITLE: 'ALERT! Check ${{ env.report }}'
           SLACK_USERNAME: Kostenko Pavel
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        with:
-           path: ${{ env.report }} 
+
         
 
           
