@@ -28,8 +28,8 @@ jobs:
       - name: output crashed pods
         id: out_pods_failed    
         run: |
-           echo ""$CONTENT_ENV" | grep -v Running" > crashed.txt
-           echo "crashed=$(grep | Running | wc -l < $CONTENT_ENV)" >> $GITHUB_OUTPUT
+           echo "$CONTENT_ENV" > crashed.txt
+           echo "crashed=$(grep | '/Running/d' | wc -l < crashed.txt)" >> $GITHUB_OUTPUT
            cat $crashed
           
       - name: Upload report
